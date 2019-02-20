@@ -1,25 +1,28 @@
 <template>
   <div>
-    <vs-button
-      class="call-button"
-      size="large"
-      radius
-      color="primary"
-      type="filled"
-      icon="add"
-      @click.stop="toggleInput()">
-    </vs-button>
-
-    <div class="call-number" v-if="inputOpened" @click.stop="">
-      <input type="text" placeholder="Telefone" @keydown="unlockAutocomplete()" v-model="callNumber">
-      <vs-button @click.stop="createNewCall()" class="call-number__btn" radius color="success" type="filled" icon="call"></vs-button>
-      <ul v-if="!autocompleteLocked">
-        <li v-if="autocompleteList.length === 0" @click.stop="setNumber(callNumber)">{{ callNumber }}</li>
-        <li v-for="item of autocompleteList" :key="item.name" @click.stop="setNumber(item.callNumber)">
-          {{ item.name }} - {{ item.callNumber }}
-        </li>
-      </ul>
+    <div class="call-button">
+      <vs-button
+        size="large"
+        radius
+        color="primary"
+        type="filled"
+        :icon="inputOpened ? 'close' : 'call'"
+        @click.stop="toggleInput()">
+      </vs-button>
     </div>
+
+    <transition name="slide">
+      <div class="call-number" v-if="inputOpened" @click.stop="">
+        <input type="text" placeholder="Telefone" @keydown="unlockAutocomplete()" v-model="callNumber">
+        <vs-button @click.stop="createNewCall()" class="call-number__btn" radius color="success" type="filled" icon="call"></vs-button>
+        <ul v-if="!autocompleteLocked">
+          <li v-if="autocompleteList.length === 0" @click.stop="setNumber(callNumber)">{{ callNumber }}</li>
+          <li v-for="item of autocompleteList" :key="item.name" @click.stop="setNumber(item.callNumber)">
+            {{ item.name }} - {{ item.callNumber }}
+          </li>
+        </ul>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -157,5 +160,16 @@ export default {
         border-bottom: 1px solid #EEE;
       }
     }
+  }
+
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.25s ease-out;
+  }
+
+  .slide-enter,
+  .slide-leave-to {
+    opacity: 0;
+    transform: translateX(20px);
   }
 </style>

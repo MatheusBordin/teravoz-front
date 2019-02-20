@@ -1,34 +1,27 @@
-# teravoz-front
+# Teravoz Front
+UI do teste para a Teravoz.
 
-## Project setup
-```
-yarn install
-```
+## Tecnologias
+- Vue
+- Vuex (State control)
+- Vuesax (UI Framework)
+- Router
+- Socket.io
 
-### Compiles and hot-reloads for development
-```
+## Executar projeto localmente
+Para rodar o projeto em sua maquina, execute o seguinte comando:
+```sh
 yarn run serve
 ```
 
-### Compiles and minifies for production
+## Compilando projeto para produção
+A compilação para o ambiente de produção envolve o chunk de módulos, minificação e build AOT. Para efetuar a compilação execute o comando abaixo:
 ```
 yarn run build
 ```
 
-### Run your tests
-```
+## Testes
+Para rodar os testes, executar o seguinte comando:
+```sh
 yarn run test
 ```
-
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Run your unit tests
-```
-yarn run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

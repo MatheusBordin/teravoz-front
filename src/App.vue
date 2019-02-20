@@ -2,7 +2,9 @@
   <div id="app">
     <Container>
       <Navbar />
-      <router-view/>
+      <transition :name="transitionName" mode="out-in">
+        <router-view/>
+      </transition>
     </Container>
 
     <CallButton />
@@ -18,6 +20,10 @@ import SocketService from './services/socket.js';
 export default {
   components: { Navbar, Container, CallButton },
 
+  data() {
+    return { transitionName: 'slide-right' };
+  },
+
   created() {
     this.$store.dispatch('getUsers');
 
@@ -25,6 +31,14 @@ export default {
     SocketService.onCallAdded((call) => this.$store.dispatch('addCall', call));
     SocketService.onCallUpdated((call) => this.$store.dispatch('updateCall', call));
     SocketService.onCallRemoved((call) => this.$store.dispatch('updateCall', call));
+  },
+
+  watch: {
+    '$route': function(to, from) {
+      const toDepth = to.path.split('/').length;
+      const fromDepth = from.path.split('/').length;
+      this.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+    }
   }
 }
 </script>
@@ -49,5 +63,22 @@ html, body {
 #app {
   width: 100%;
   height: 100%;
+}
+
+.slide-right-enter-active,
+.slide-left-enter-active,
+.slide-right-leave-active,
+.slide-left-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-left-enter, .slide-right-leave-active {
+  opacity: 0;
+  transform: translate(30px, 0);
+}
+
+.slide-left-leave-active, .slide-right-enter {
+  opacity: 0;
+  transform: translate(-30px, 0);
 }
 </style>
